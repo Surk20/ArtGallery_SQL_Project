@@ -18,35 +18,52 @@ document.addEventListener('DOMContentLoaded', () => {
         wrapper.classList.remove('active-popup');
     });
 
-    // Validation rules
-    const emailPattern = /^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const passwordPattern = /^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{8,}$/; // Minimum 8 characters, at least one letter and one number
-
-    // Login form validation
-    document.getElementById('login-form').addEventListener('submit', function(event) {
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-
-        if (!emailPattern.test(email)) {
-            alert('Invalid email format. Ensure it starts with a letter and contains @.');
-            event.preventDefault();
-        } else if (!passwordPattern.test(password)) {
-            alert('Password must be at least 8 characters long and contain at least one letter and one number.');
-            event.preventDefault();
+    loginForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+    
+            if (validateEmail(email) && validatePassword(password)) {
+                alert('Login successful!');
+                // Add your form submission logic here
+            }
+        });
+    
+        registerForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+    
+            if (validateUsername(username) && validateEmail(email) && validatePassword(password)) {
+                alert('Registration successful!');
+                // Add your form submission logic here
+            }
+        });
+    
+        function validateEmail(email) {
+            const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!re.test(email)) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+            return true;
+        }
+    
+        function validatePassword(password) {
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long.');
+                return false;
+            }
+            return true;
+        }
+    
+        function validateUsername(username) {
+            if (username.trim().length < 3) {
+                alert('Username must be at least 3 characters long.');
+                return false;
+            }
+            return true;
         }
     });
-
-    // Registration form validation
-    document.getElementById('register-form').addEventListener('submit', function(event) {
-        const email = document.getElementById('register-email').value;
-        const password = document.getElementById('register-password').value;
-
-        if (!emailPattern.test(email)) {
-            alert('Invalid email format. Ensure it starts with a letter and contains @.');
-            event.preventDefault();
-        } else if (!passwordPattern.test(password)) {
-            alert('Password must be at least 8 characters long and contain at least one letter and one number.');
-            event.preventDefault();
-        }
-    });
-});
+    
